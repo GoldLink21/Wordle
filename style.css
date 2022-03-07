@@ -1,0 +1,23 @@
+html,body{
+    height: 100%;
+    margin: 0;
+    width: auto;
+    display: flex;
+    flex-direction: column;
+}
+.char{
+    width: 2ch;
+}
+.wrapper{
+    text-align: center;
+    display: inline-block;
+    border-radius: 15%;
+    padding:1%;
+    border: 2px solid black;
+    margin:5px;
+    transition: 0.2s all;
+    background-color: grey;
+}
+#outputs{
+    width: 100%;
+}

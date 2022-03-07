@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Wordle Solver</title>
+</head>
+<body>
+    <script src="main.js" defer></script>
+    <div>
+        <div class="wrapper" id="w1">
+            <input type="text" id="t1" maxlength="1" class="char"><br>
+            <input type="radio" class="notInc" name="t1" id="r11" checked><label for="r11">Not Included</label><br>
+            <input type="radio" class="inc" name="t1" id="r12"><label for="r12">Included</label><br>
+            <input type="radio" class="correct" name="t1" id="r13"><label for="r13">Correct</label><br>
+        </div>
+        <div class="wrapper" id="w2">
+            <input type="text" id="t2" maxlength="1" class="char"><br>
+            <input type="radio" class="notInc" name="t2" id="r21" checked><label for="r21">Not Included</label><br>
+            <input type="radio" class="inc" name="t2" id="r22"><label for="r22">Included</label><br>
+            <input type="radio" class="correct" name="t2" id="r23"><label for="r23">Correct</label><br>
+        </div>
+        <div class="wrapper" id="w3">
+            <input type="text" id="t3" maxlength="1" class="char"><br>
+            <input type="radio" class="notInc" name="t3" id="r31" checked><label for="r31">Not Included</label><br>
+            <input type="radio" class="inc" name="t3" id="r32"><label for="r32">Included</label><br>
+            <input type="radio" class="correct" name="t3" id="r33"><label for="r33">Correct</label><br>
+        </div>
+        <div class="wrapper" id="w4">
+            <input type="text" id="t4" maxlength="1" class="char"><br>
+            <input type="radio" class="notInc" name="t4" id="r41" checked><label for="r41">Not Included</label><br>
+            <input type="radio" class="inc" name="t4" id="r42"><label for="r42">Included</label><br>
+            <input type="radio" class="correct" name="t4" id="r43"><label for="r43">Correct</label><br>
+        </div>
+        <div class="wrapper" id="w5">
+            <input type="text" id="t5" maxlength="1" class="char"><br>
+            <input type="radio" class="notInc" name="t5" id="r51" checked><label for="r51">Not Included</label><br>
+            <input type="radio" class="inc" name="t5" id="r52"><label for="r52">Included</label><br>
+            <input type="radio" class="correct" name="t5" id="r53"><label for="r53">Correct</label><br>
+        </div> <br>
+        <button id="t6" onclick="gatherWord()">Check</button>
+        <button id="reset" onclick="reset()">Reset</button>
+    </div>
+    <div id="outputs">
+
+    </div>
+</body>
+</html>

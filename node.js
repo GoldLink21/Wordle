@@ -4,11 +4,16 @@ I mainly made it to try and calculate the best possible starting word
 with a brute force approach
 */
 const fs = require("fs");
+const { argv } = require("process");
 
 /**@type {string[]} */
 let words;
 /**@type {string[]} */
 let wordsOrigin;
+
+let progress;
+let startIndex;
+let endIndex;
 
 /**@type {[string[],string[],string[],string[],string[]]} */
 var possibleChoices = [[],[],[],[],[]];
@@ -68,11 +73,32 @@ function gw(){
 (function init(){
     resetVars();
     let text = fs.readFileSync("./words5.txt").toString();
-    wordsOrigin = text.split("\r\n");
+    wordsOrigin = text.split("\n");
+    //console.log(wordsOrigin);
     //Removes empty last word
     wordsOrigin.pop();
+    //Gets current progress
+    progress = JSON.parse(fs.readFileSync("out.json"));
+    startIndex = Object.keys(progress).length;
+    console.log(argv[2]);
+    if(argv[2]){
+        endIndex = startIndex + Number(argv[2])
+    } else {
+        //Auto does a ~9 hour session
+        endIndex = startIndex + 650;
+    }
+    if(endIndex > wordsOrigin.length){
+        console.log("Overshooting");
+        endIndex = wordsOrigin.length;
+    }
 })()
-
+/*
+//Hanlde interrupt
+process.on("SIGINT", ()=>{
+    saveProgress();
+    console.log("Caught SIGINT, exiting now")
+    process.exit(0);
+})*/
 
 /**
  * Returns the number of possible words after checking guess against correct 
@@ -101,23 +127,38 @@ function check1(correct, guess){
 }
 
 function testAll(){
-    let output = {}
+    let output = progress;
     console.time("Total");
-    for(let i=0;i</*wordsOrigin.length*/3;i++){
+    console.log(`Start:${startIndex}, End:${endIndex}`);
+    for(let i=startIndex;i<endIndex;i++){
         console.time("-Word"+i);
         let corrWord = wordsOrigin[i];
         output[corrWord] = 0;
+        let count = 0;
         for(let j=0;j<wordsOrigin.length;j++){
             resetVars();
             //console.log(`Comparing ${wordsOrigin[j]} against ${corrWord}`)
-            output[corrWord] += check1(corrWord,wordsOrigin[j]);
+            count += check1(corrWord,wordsOrigin[j]);
         }
+        output[corrWord] = count;
         console.timeEnd("-Word"+i);
-        //console.log("Just finished "+ corrWord);
+        //Save roughly every half hour
+        if(i % 40 == 0){
+            saveProgress()
+        }
     }
     console.timeEnd("Total");
+    saveProgress();
     return output;
-}   
-console.log(testAll())
+} 
+function saveProgress() {
+    console.log(`Saving progress to out.json\nCurrently at ${Object.keys(progress).length} words`);
+    fs.writeFileSync("out.json", JSON.stringify(progress));
+}
+
+(function run() {
+    let out = testAll();
+    fs.writeFileSync("out.json",JSON.stringify(out));
+})()
 
 //Currently around 27-28 seconds per word on my machine

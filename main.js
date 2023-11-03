@@ -1,16 +1,12 @@
 /**@returns {string?} */
 function readTextFile(file)
 {
-    var rawFile = new XMLHttpRequest();
-    rawFile.open("GET", file, false);
-    rawFile.onreadystatechange = function () {
-        if((rawFile.readyState === 4) && (rawFile.status === 200 || rawFile.status == 0)) {
-            wordsOrigin = rawFile.responseText.split("\r\n").filter(s=>s.length===5);
-            words = rawFile.responseText.split("\r\n").filter(s=>s.length===5)
-        }
-    }
-    rawFile.send(null);
-    return null
+    fetch(`./${file}`).then(content => {
+        content.text().then(text =>{
+            wordsOrigin = text.split("\n").filter(s=>s.length===5);
+            words = text.split("\n").filter(s=>s.length===5)
+        })
+    });
 }
 
 const incrementSpeed = true;
